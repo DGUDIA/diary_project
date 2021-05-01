@@ -1,6 +1,8 @@
+import 'package:diary_project/chat/client.dart';
 import 'package:flutter/material.dart';
 import '../chat/chat_screen.dart';
 import 'package:diary_project/login/my_page.dart';
+import 'package:diary_project/chat/server.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -22,6 +24,21 @@ class Menu extends StatelessWidget {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => SignedInPage()));
             },
+          ),
+          ListTile(
+            title: Text("서버통신 TEST용"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyApp()));
+            },
+          ),
+          ListTile(
+            title: Text("서버통신 TEST용2"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Client()));
+            },
+
           )
         ].map((child) {
           return Card(

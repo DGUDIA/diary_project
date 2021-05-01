@@ -32,6 +32,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_dialogflow: ^0.1.2
   cloud_firestore: ^0.12.10
+  flutter_socket_io: ^0.6.0
 
 
   # The following adds the Cupertino Icons font to your application.

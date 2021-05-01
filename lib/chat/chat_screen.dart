@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diary_project/chat/chat_constraint.dart';
+import 'package:diary_project/my_config.dart';
 
+final gServerIp = properties['admin']['admins'];
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
 
 ChatScreenState pageState;
+
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -69,6 +74,7 @@ class ChatScreenState extends State<ChatScreen> {
                     FlatButton(
                       onPressed: () {
                         messageTextController.clear();
+
                         _firestore.collection('messages').add(
                           {
                             'text': messageText,
