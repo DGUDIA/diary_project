@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
   fontWeight: FontWeight.bold,
-  fontSize: 18.0,
+  fontSize: 20.0,
 );
 
 const kMessageTextFieldDecoration = InputDecoration(
-  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-  hintText: 'Type your message here...',
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+  hintText: '쓰고 싶은 말을 써주세요...',
   border: InputBorder.none,
 );
 

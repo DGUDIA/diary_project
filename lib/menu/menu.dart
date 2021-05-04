@@ -1,8 +1,9 @@
-import 'package:diary_project/chat/client.dart';
+import '../chat/client.dart';
 import 'package:flutter/material.dart';
 import '../chat/chat_screen.dart';
-import 'package:diary_project/login/my_page.dart';
-import 'package:diary_project/chat/server.dart';
+import '../login/my_page.dart';
+import '../chat/server.dart';
+import '../chat/chat_datas.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -19,7 +20,7 @@ class Menu extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text("회원 정보 수정"),
+            title: Text("마이 페이지"),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => SignedInPage()));
@@ -37,6 +38,14 @@ class Menu extends StatelessWidget {
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Client()));
+            },
+
+          ),
+          ListTile(
+            title: Text("회원 DB"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => ChatDB()));
             },
 
           )

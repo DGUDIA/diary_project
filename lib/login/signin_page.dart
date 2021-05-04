@@ -4,6 +4,7 @@ import 'firebase_provider.dart';
 import 'signup_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'forgot_pw.dart';
 
 SignInPageState pageState;
 
@@ -44,27 +45,20 @@ class SignInPageState extends State<SignInPage> {
     logger.d(fp.getUser());
     return Scaffold(
       key: _scaffoldKey,
-      body: ListView(
+      body: Center(
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(margin: const EdgeInsets.only(top:50)),
+          Container(child:Text("💎",
+            style:TextStyle(fontSize: 30),
+          )),
+          Container(child:Text("다이\n아리",
+            style:TextStyle(fontSize: 50),
+          )),
           Container(
             margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Column(
               children: <Widget>[
-                //Header
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(color: Colors.black),
-                  child: Center(
-                    child: Text(
-                      "다이아리",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
 
                 // Input Area
                 Container(
@@ -152,8 +146,12 @@ class SignInPageState extends State<SignInPage> {
           // Sign In Button
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: RaisedButton(
-              color: Colors.black12,
+            child: ElevatedButton(
+
+              style:ElevatedButton.styleFrom(
+    primary:Colors.lightBlueAccent,
+                onPrimary:Colors.white,
+    ),
               child: Text(
                 "로그인",
                 style: TextStyle(color: Colors.white),
@@ -173,7 +171,7 @@ class SignInPageState extends State<SignInPage> {
               children: <Widget>[
                 Text("아직 회원이 아니신가요?",
                     style: TextStyle(color: Colors.blueGrey)),
-                FlatButton(
+                TextButton(
                   child: Text(
                     "회원가입",
                     style: TextStyle(color: Colors.blue, fontSize: 16),
@@ -188,8 +186,10 @@ class SignInPageState extends State<SignInPage> {
           )
         ],
       ),
-    );
+    ));
+
   }
+
 
   void _signIn() async {
     _scaffoldKey.currentState

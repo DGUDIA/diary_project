@@ -34,27 +34,21 @@ class SignUpPageState extends State<SignUpPage> {
 
     return Scaffold(
         key: _scaffoldKey,
-        body: ListView(
+        body: Center(
+          child:Column(mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Column(
+
                 children: <Widget>[
-                  Container(margin: const EdgeInsets.only(top:50)),
-                  //Header
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(color: Colors.black),
-                    child: Center(
-                      child: Text(
-                        "다이아리 회원가입 페이지",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
+                  Container(child:Text("💎",
+                    style:TextStyle(fontSize: 30),
+                  )),
+                  Container(child:Text("다이\n아리",
+                    style:TextStyle(fontSize: 50),
+                  )),
+
 
                   // Input Area
                   Container(
@@ -63,6 +57,7 @@ class SignUpPageState extends State<SignUpPage> {
                     ),
                     child: Column(
                       children: <Widget>[
+
                         TextField(
                           controller: _mailCon,
                           decoration: InputDecoration(
@@ -94,8 +89,10 @@ class SignUpPageState extends State<SignUpPage> {
             // Sign Up Button
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: RaisedButton(
-                color: Colors.black12,
+              child: ElevatedButton(style:ElevatedButton.styleFrom(
+                primary:Colors.lightBlueAccent,
+                onPrimary:Colors.white,
+              ),
                 child: Text(
                   "회원 가입",
                   style: TextStyle(color: Colors.white),
@@ -108,7 +105,8 @@ class SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ],
-        ));
+        ))
+    );
   }
 
   void _signUp() async {

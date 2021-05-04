@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:diary_project/my_config.dart';
+import '../my_config.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
 import 'package:flutter_socket_io/socket_io_manager.dart';
 

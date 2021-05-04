@@ -3,7 +3,7 @@ import 'firebase_provider.dart';
 import '../chat/chat_screen.dart';
 import 'signin_page.dart';
 import 'package:provider/provider.dart';
-import 'package:diary_project/menu/menu.dart';
+import '../menu/menu.dart';
 
 AuthPageState pageState;
 

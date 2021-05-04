@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:diary_project/my_config.dart';
+import '../my_config.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
 import 'package:flutter_socket_io/socket_io_manager.dart';
 
@@ -64,9 +64,24 @@ class _ClientState extends State<Client> {
                   ),
                   padding: EdgeInsets.all(3.0),
                 ),
+
+              ),
+              Expanded(
+                child: Container(
+                  child: Padding(
+                    // 연산 결과 표시. Text는 보여주기 전용 위젯
+                    child: Text(mResult,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    padding: EdgeInsets.all(3.0),
+                  ),
+                  color: Colors.orange,
+                ),
               ),
             ],
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[

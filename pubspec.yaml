@@ -33,6 +33,9 @@ dependencies:
   flutter_dialogflow: ^0.1.2
   cloud_firestore: ^0.12.10
   flutter_socket_io: ^0.6.0
+  timer_builder: ^2.0.0
+  intl: ^0.15.8
+  url_launcher: ^6.0.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,8 +55,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-#  assets:
-#    -images/
+  assets:
+    - images/pencil.png
+    - images/1.gif
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -71,10 +75,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+#fonts:
+#  - family: DoHyeon
+#     fonts:
+#       - asset: assets/fonts/DoHyeon-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
@@ -85,3 +89,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
