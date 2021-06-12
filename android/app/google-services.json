@@ -10,35 +10,6 @@
       "client_info": {
         "mobilesdk_app_id": "1:773908251104:android:bce09ef95417f1c852eb85",
         "android_client_info": {
-          "package_name": "com.example.dia"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "773908251104-0vpngsv0bgg1gai9pgpmbk34uv3lh5fg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCQXqUnhmCa9A430SZNv-cV5wFsPh1ZDs4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "773908251104-0vpngsv0bgg1gai9pgpmbk34uv3lh5fg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:773908251104:android:24de4098c9283c0d52eb85",
-        "android_client_info": {
           "package_name": "dgu.dia.diary"
         }
       },
@@ -64,6 +35,5 @@
         }
       }
     }
-  ],
-  "configuration_version": "1"
+  ]
 }

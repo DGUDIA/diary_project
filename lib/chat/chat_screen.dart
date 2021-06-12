@@ -16,16 +16,18 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 FirebaseUser loggedInUser;
+final _firestore = Firestore.instance;
 
 ChatScreenState pageState;
 enum DataKind { NONE, SEND }
-final gServerIp = 'http://13.124.54.4:56201/';
-final _firestore = Firestore.instance;
+final gServerIp = 'http://13.209.152.251:52674/';
+
 
 String getTime() {
-  DateFormat df = DateFormat("yyyy/MM/dd hh:mm");
+  DateFormat df = DateFormat("yyyy/MM/dd hh:mm:ss");
   return df.format(DateTime.now());
 }
+
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -42,6 +44,7 @@ class ChatScreen extends StatefulWidget {
 
   String mResult = '0';
   String email;
+  String diary;
   String mText;
   var time;
 
@@ -53,8 +56,8 @@ class ChatScreen extends StatefulWidget {
       return '';
 
     // 문자열 이름은 서버에 정의된 add와 multiply 서비스
-    var addr = gServerIp + ((mKind == DataKind.SEND) ? 'chat':'none');
-    var response = await http.post(addr, body: {'email': email, 'time':time, 'diary':mText});
+    var addr = gServerIp + 'chat';
+    var response = await http.post(addr, body: {'timestamp':time, 'email': email, 'diary':diary});
 
     // 200 ok. 정상 동작임을 알려준다.
     if (response.statusCode == 200)
@@ -66,6 +69,7 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+  FirebaseProvider fp;
 
     @override
     void initState() {
@@ -73,19 +77,29 @@ class ChatScreenState extends State<ChatScreen> {
       getCurrentUser();
     }
 
-    void getCurrentUser() async {
-      try {
-        final user = await _auth.currentUser();
-        if (user != null) {
-          loggedInUser = user;
-        }
-      } catch (e) {
-        print(e);
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null) {
+        loggedInUser = user;
       }
+    } catch (e) {
+      print(e);
     }
+  }
 
     @override
     Widget build(BuildContext context) {
+      fp = Provider.of<FirebaseProvider>(context);
+      try {
+        if(fp.getUser()!=null){
+          email = fp
+              .getUser()
+              .email.toString();}
+      } catch (e) {
+        print(e);
+      }
+
       return Scaffold(
         body: SafeArea(
           child: Column(
@@ -117,22 +131,26 @@ class ChatScreenState extends State<ChatScreen> {
                                 'sender': loggedInUser.email,
                                 'timestamp': getTime(),
                                 'diary': mText,
+                                'isMe' : true,
+                                'createdOn': FieldValue.serverTimestamp(),
+                                'link':"",
+                                'type':"",
                               },);
-                        // try {
-                        //   mKind = DataKind.SEND;
-                        //   email = loggedInUser.email;
-                        //   time = getTime();
-                        // postReply()
-                        //     .then((recvd) => mResult = recvd)
-                        //     .whenComplete(() {
-                        // if(mResult.isEmpty == false)
-                        // setState(() {});
-                        // });
-                        // } catch (e, s) {
-                        // print(s);
-                      //   }
-                      //
-                      //
+                        try {
+                          time = getTime();
+                          diary = mText;
+                          email = loggedInUser.email;
+                        postReply()
+                            .then((recvd) => mResult = recvd)
+                            .whenComplete(() {
+                        if(mResult.isEmpty == false)
+                        setState(() {});
+                        });
+                        } catch (e, s) {
+                        print(s);
+                        }
+
+
                       }
                       },
                       child:Text(
@@ -150,13 +168,16 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
-
+// List<AnswerList> answerLists = [];
 class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream:
-      _firestore.collection('messages').orderBy('timestamp').snapshots(),
+      _firestore.collection('messages')
+          .where("sender", isEqualTo: loggedInUser.email)
+          .orderBy('createdOn')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -167,10 +188,15 @@ class MessagesStream extends StatelessWidget {
         }
         final messages = snapshot.data.documents.reversed;
         List<MessageBubble> messageBubbles = [];
+
         for (var message in messages) {
           final diary = message.data['diary'];
           final sender = message.data['sender'];
           final time = message.data['timestamp'];
+          final isMe = message.data['isMe'];
+          final link = message.data['link']; // 웹뷰 링크
+          final type = message.data['type']; //감정 타입
+
 
           final currentUser = loggedInUser.email;
 
@@ -178,38 +204,13 @@ class MessagesStream extends StatelessWidget {
             sender: sender,
             diary: diary,
             time:time,
-            isMe: true,
+            isMe: isMe,
+            type: type,
+            link: link
           );
 
           messageBubbles.add(messageBubble);
         }
-        for (var message in messages) {
-          final diary = message.data['diary'];
-          final sender = message.data['sender'];
-          final time = message.data['timestamp'];
-
-          final currentUser = loggedInUser.email;
-
-          final messageBubble = MessageBubble(
-            sender: sender,
-            diary: diary,
-            time:time,
-            isMe: false,
-          );
-
-          messageBubbles.add(messageBubble);}
-
-    //메시지 시간순 정렬
-        messageBubbles.sort((a, b) {
-          if (b.isMe) {
-            return -1;
-          }
-          return 1;
-        });
-        messageBubbles.sort((a, b) => a.time.compareTo(b.time));
-
-
-
 
   return Expanded(
   child: ListView(
@@ -226,13 +227,23 @@ class MessagesStream extends StatelessWidget {
     }
   }
 
+// class AnswerList {
+//   AnswerList({this.type, this.link, this.time});
+//   final String type;
+//   final String link;
+//   final time;
+// }
+
 class MessageBubble extends StatelessWidget {
-  MessageBubble({this.sender, this.time, this.diary, this.isMe});
+  MessageBubble({this.sender, this.time, this.diary, this.isMe, this.link, this.type});
 
   final String sender;
   final time;
   final String diary;
   final bool isMe;
+  final String link;
+  final String type;
+
 
   @override
   Widget build(BuildContext context) {
@@ -304,11 +315,11 @@ class MessageBubble extends StatelessWidget {
                     ),
                     boxShadow:[
                       BoxShadow(
-    color:Colors.grey.withOpacity(0.5),
-    blurRadius:5,
-    offset: Offset(0,3)
-    )
-    ]),
+                      color:Colors.grey.withOpacity(0.5),
+                      blurRadius:5,
+                      offset: Offset(0,3)
+                      )
+                      ]),
 
 
                     child: Padding(
@@ -316,7 +327,7 @@ class MessageBubble extends StatelessWidget {
                       child: new InkWell(
                         child : new Text('🎁\n'
                             '여기를 눌러주세요!'),
-                        onTap:()=>launch('https://www.naver.com/',forceWebView: true)
+                        onTap:()=>launch(link, forceWebView: true)
                       )
 
                     ),
